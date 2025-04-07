@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Results</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #007bff; color: white; }
+  </style>
+</head>
+<body>
+  <h2>Quiz Submissions</h2>
+  <table id="resultsTable">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Name</th>
+        <th>Organization</th>
+        <th>Email</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("quizResponses")) || [];
+    const table = document.querySelector("#resultsTable tbody");
+
+    data.forEach(entry => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${entry.timestamp}</td>
+        <td>${entry.name}</td>
+        <td>${entry.organization}</td>
+        <td>${entry.email}</td>
+        <td>${entry.score}</td>
+      `;
+      table.appendChild(row);
+    });
+  </script>
+</body>
+</html>
