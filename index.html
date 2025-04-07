@@ -70,6 +70,8 @@
       color: #333;
       margin-bottom: 20px;
     }
+
+    /* ✅ Quiz Alignment Fix */
     .quiz-question {
       text-align: left;
       margin: 20px 0;
@@ -117,13 +119,13 @@
       <form id="quizForm">
         <div class="quiz-question">
           <p><strong>1. Do you currently de-risk decisions using data?</strong></p>
-          <label><input type="radio" name="q1" value="1" required> Yes</label>
+          <label><input type="radio" name="q1" value="1"> Yes</label>
           <label><input type="radio" name="q1" value="0"> No</label>
         </div>
 
         <div class="quiz-question">
           <p><strong>2. Is your organization open to risk modeling?</strong></p>
-          <label><input type="radio" name="q2" value="1" required> Yes</label>
+          <label><input type="radio" name="q2" value="1"> Yes</label>
           <label><input type="radio" name="q2" value="0"> No</label>
         </div>
 
@@ -134,8 +136,7 @@
   </div>
 
   <script>
-    let attendeeInfo = {};
-
+    // Step 1: Info form handling
     document.getElementById("infoForm").onsubmit = function(e) {
       e.preventDefault();
 
@@ -144,12 +145,13 @@
       const email = document.getElementById("email").value.trim();
 
       if (name && org && email) {
-        attendeeInfo = { name, organization: org, email };
+        window.attendeeInfo = { name, organization: org, email };
         document.getElementById("infoSection").classList.add("hidden");
         document.getElementById("quizSection").classList.remove("hidden");
       }
     };
 
+    // Step 2: Quiz scoring
     document.getElementById("quizForm").onsubmit = function(e) {
       e.preventDefault();
 
@@ -159,18 +161,6 @@
 
       if (q1) score += parseInt(q1.value);
       if (q2) score += parseInt(q2.value);
-
-      const submission = {
-        name: attendeeInfo.name,
-        organization: attendeeInfo.organization,
-        email: attendeeInfo.email,
-        score: score,
-        timestamp: new Date().toLocaleString()
-      };
-
-      const existing = JSON.parse(localStorage.getItem("quizResponses")) || [];
-      existing.push(submission);
-      localStorage.setItem("quizResponses", JSON.stringify(existing));
 
       document.getElementById("result").innerHTML =
         `✅ Your score is ${score}/2.<br>🎯 Please go to the de Risk Booth for next steps!`;
