@@ -144,6 +144,61 @@
         `✅ Your score is ${score}/2.<br>🎯 Please go to the de Risk Booth for next steps!`;
     };
   </script>
+    <!-- Your other content above -->
+
+  <script>
+    // HANDLE INFO FORM
+    document.getElementById("infoForm").onsubmit = function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const org = document.getElementById("organization").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      if (name && org && email) {
+        window.attendeeInfo = { name, organization: org, email };
+        document.getElementById("infoSection").classList.add("hidden");
+        document.getElementById("quizSection").classList.remove("hidden");
+      }
+    };
+
+    // HANDLE QUIZ FORM
+    document.getElementById("quizForm").onsubmit = function(e) {
+      e.preventDefault();
+
+      let score = 0;
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+
+      if (q1) score += parseInt(q1.value);
+      if (q2) score += parseInt(q2.value);
+
+      // POST to Google Apps Script Web App
+      fetch("https://script.google.com/macros/s/AKfycbx1ZpFr8zbx5lEg-ipAiqkXD0B2wCMb9H4nZAxupmElYwftfHgc8C0G8Ne5m8pyzSQ/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: attendeeInfo.name,
+          organization: attendeeInfo.organization,
+          email: attendeeInfo.email,
+          score: score
+        })
+      }).then(res => {
+        document.getElementById("result").innerHTML =
+          `✅ Your score is ${score}/2.<br>🎯 Please go to the de Risk Booth for next steps!`;
+      }).catch(err => {
+        document.getElementById("result").innerHTML =
+          `⚠️ Submission failed. Please try again.`;
+        console.error("Error:", err);
+      });
+    };
+  </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
