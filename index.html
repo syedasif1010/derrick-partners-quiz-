@@ -205,13 +205,13 @@
         }
       }
       const result = document.getElementById("result");
-      let message = " You're in good shape! Visit de Risk Booth and speak to a compliance Officer.";
+      let message = " You're in good shape! Visit the de Risk Booth and speak to a compliance Officer.";
       result.style.backgroundColor = "green";
       if (redFlags >= 3) {
-        message = " Your credit union may benefit from our professional compliance support. Visit de Risk Booth and speak to a compliance Officer.";
+        message = " Your credit union may benefit from our professional compliance support. Visit the de Risk Booth and speak to a compliance Officer.";
         result.style.backgroundColor = "red";
       } else if (redFlags > 0) {
-        message = " Some areas may need attention. Consider a compliance review. Visit de Risk Booth and speak to a compliance Officer.";
+        message = " Some areas may need attention. Consider a compliance review. Visit the de Risk Booth and speak to a compliance Officer.";
         result.style.backgroundColor = "orange";
       }
       result.innerHTML = message;
